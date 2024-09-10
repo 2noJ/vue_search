@@ -1,64 +1,37 @@
 <template>
   <div id="contentWrap" class="search-wrap dwp-contents">
     <div class="default-wrap">
-      <div
-        class="page-table type2"
-        v-if="selectRadio"
-        style="margin-bottom: 56px"
-      >
+      <div class="page-table type2" v-if="selectRadio" style="margin-bottom: 56px">
         <div class="page-info">
           <div>
             <div class="page-tit">
               <p>
                 {{ getLang(language.vue_search?.title.target, "검색대상") }}
               </p>
+              <button @click="test">test</button>
             </div>
             <div class="page-value">
               <div class="radio-area row">
                 <div>
-                  <input
-                    type="radio"
-                    name="radio-row"
-                    id="radio-row1"
-                    value="all"
-                    v-model="checkSearch"
-                  />
+                  <input type="radio" name="radio-row" id="radio-row1" value="all" v-model="checkSearch" />
                   <label for="radio-row1">{{
                     getLang(language.vue_search?.title.all, "전체")
                   }}</label>
                 </div>
                 <div>
-                  <input
-                    type="radio"
-                    name="radio-row"
-                    id="radio-row4"
-                    value="row1"
-                    v-model="checkSearch"
-                  />
+                  <input type="radio" name="radio-row" id="radio-row4" value="row1" v-model="checkSearch" />
                   <label for="radio-row4">{{
                     getLang(language.vue_search?.title.gw, "그룹웨어")
                   }}</label>
                 </div>
                 <div>
-                  <input
-                    type="radio"
-                    name="radio-row"
-                    id="radio-row2"
-                    value="row2"
-                    v-model="checkSearch"
-                  />
+                  <input type="radio" name="radio-row" id="radio-row2" value="row2" v-model="checkSearch" />
                   <label for="radio-row2">{{
                     getLang(language.vue_search?.title.centeral, "문서중앙")
                   }}</label>
                 </div>
                 <div>
-                  <input
-                    type="radio"
-                    name="radio-row"
-                    id="radio-row3"
-                    value="row3"
-                    v-model="checkSearch"
-                  />
+                  <input type="radio" name="radio-row" id="radio-row3" value="row3" v-model="checkSearch" />
                   <label for="radio-row3">{{
                     getLang(language.vue_search?.title.standard, "표준문서")
                   }}</label>
@@ -95,45 +68,25 @@
         <!-- 게시판 전자결재 -->
 
         <template v-if="row1">
-          <div
-            class="search-result-board"
-            v-for="(data, index) in approList"
-            :key="'approval' + index"
-          >
+          <div class="search-result-board" v-for="(data, index) in approList" :key="'approval' + index">
             <div class="search-title-wrap">
               <p class="search-title">
                 {{ getLang(language.vue_search?.title.approval, "전자결재") }}
                 <span class="search-total">{{ approTotal }}</span>
               </p>
-              <a
-                class="btn md line more"
-                @click="lnbChange('appro')"
-                v-if="selectRadio"
-                ><span>{{
-                  getLang(language.vue_search?.title.more, "더보기")
-                }}</span></a
-              >
+              <a class="btn md line more" @click="lnbChange('appro')" v-if="selectRadio"><span>{{
+                getLang(language.vue_search?.title.more, "더보기")
+                  }}</span></a>
             </div>
             <div class="search-result-list">
               <ul>
-                <li
-                  class="search-result-item"
-                  v-for="(appro, index) in data.items"
-                  :key="'appro' + index"
-                >
+                <li class="search-result-item" v-for="(appro, index) in data.items" :key="'appro' + index">
                   <div class="title-wrap flex-con p-be">
                     [<span v-html="processContent(appro.aprvFormTitle)"></span>]
-                    <p
-                      @click="openUrl(appro, '결재')"
-                      style="cursor: pointer"
-                      class="title ellipse"
-                      v-html="processContent(appro.subject)"
-                    ></p>
+                    <p @click="openUrl(appro, '결재')" style="cursor: pointer" class="title ellipse"
+                      v-html="processContent(appro.subject)"></p>
                     <div class="info-wrap">
-                      <span
-                        class="depart"
-                        v-html="processContent(Lang(appro.authorName))"
-                      ></span>
+                      <span class="depart" v-html="processContent(Lang(appro.authorName))"></span>
                       <span class="divider"></span>
                       <span class="date">{{
                         DatetoLocaleString(formatDate(appro.createdDate), {
@@ -142,25 +95,11 @@
                       }}</span>
                     </div>
                   </div>
-                  <div
-                    class="file-wrap"
-                    v-for="(file, f) in appro.fileName.split('Ψ')"
-                    :key="'file' + f"
-                  >
-                    <a
-                      ><span class="file flex-con jc-left ellipse"
-                        ><img
-                          src="../assets/images/subpage/icon_file_xls.svg"
-                          class="screen-mode-img"
-                          alt="" /><span
-                          v-html="processContent(file)"
-                        ></span></span
-                    ></a>
+                  <div class="file-wrap" v-for="(file, f) in appro.fileName.split('Ψ')" :key="'file' + f">
+                    <a><span class="file flex-con jc-left ellipse"><img src="../assets/images/subpage/icon_file_xls.svg"
+                          class="screen-mode-img" alt="" /><span v-html="processContent(file)"></span></span></a>
                   </div>
-                  <p
-                    class="content ellipse lh2"
-                    v-html="processContent(appro.body)"
-                  ></p>
+                  <p class="content ellipse lh2" v-html="processContent(appro.body)"></p>
                   <p class="location flex-con jc-left"></p>
                 </li>
               </ul>
@@ -168,41 +107,23 @@
           </div>
         </template>
         <template v-if="row4">
-          <div
-            class="search-result-board"
-            v-for="(data, index) in boardList"
-            :key="'board' + index"
-          >
+          <div class="search-result-board" v-for="(data, index) in boardList" :key="'board' + index">
             <div class="search-title-wrap">
               <p class="search-title">
                 {{ getLang(language.vue_search?.title.board, "게시판") }}
                 <span class="search-total">{{ boardTotal }}</span>
               </p>
-              <a
-                class="btn md line more"
-                @click="lnbChange('board')"
-                v-if="selectRadio"
-                ><span>{{
-                  getLang(language.vue_search?.title.more, "더보기")
-                }}</span></a
-              >
+              <a class="btn md line more" @click="lnbChange('board')" v-if="selectRadio"><span>{{
+                getLang(language.vue_search?.title.more, "더보기")
+                  }}</span></a>
             </div>
             <div class="search-result-list">
               <ul>
-                <li
-                  class="search-result-item"
-                  v-for="(bbs, index) in data.items"
-                  :key="'bbs' + index"
-                >
+                <li class="search-result-item" v-for="(bbs, index) in data.items" :key="'bbs' + index">
                   <div class="title-wrap flex-con p-be">
-                    [<span>{{ Lang(bbs.boardName) }}</span
-                    >]
-                    <p
-                      class="title ellipse"
-                      style="cursor: pointer"
-                      @click="openUrl(bbs, 'bbs')"
-                      v-html="processContent(bbs.subject)"
-                    ></p>
+                    [<span>{{ Lang(bbs.boardName) }}</span>]
+                    <p class="title ellipse" style="cursor: pointer" @click="openUrl(bbs, 'bbs')"
+                      v-html="processContent(bbs.subject)"></p>
                     <div class="info-wrap">
                       <span class="depart">{{ Lang(bbs.authorName) }}</span>
                       <span class="divider"></span>
@@ -213,25 +134,11 @@
                       }}</span>
                     </div>
                   </div>
-                  <div
-                    class="file-wrap"
-                    v-for="(file, f) in bbs.fileName.split('Ψ')"
-                    :key="'file' + f"
-                  >
-                    <a
-                      ><span class="file flex-con jc-left ellipse"
-                        ><img
-                          src="../assets/images/subpage/icon_file_xls.svg"
-                          class="screen-mode-img"
-                          alt="" /><span
-                          v-html="processContent(file)"
-                        ></span></span
-                    ></a>
+                  <div class="file-wrap" v-for="(file, f) in bbs.fileName.split('Ψ')" :key="'file' + f">
+                    <a><span class="file flex-con jc-left ellipse"><img src="../assets/images/subpage/icon_file_xls.svg"
+                          class="screen-mode-img" alt="" /><span v-html="processContent(file)"></span></span></a>
                   </div>
-                  <p
-                    class="content ellipse lh2"
-                    v-html="processContent(bbs.body)"
-                  ></p>
+                  <p class="content ellipse lh2" v-html="processContent(bbs.body)"></p>
                   <p class="location flex-con jc-left"></p>
                 </li>
               </ul>
@@ -239,11 +146,7 @@
           </div>
         </template>
         <template v-if="row2">
-          <div
-            class="search-result-approval"
-            v-for="(data, nexen) in nexenList"
-            :key="'nexen' + nexen"
-          >
+          <div class="search-result-approval" v-for="(data, nexen) in nexenList" :key="'nexen' + nexen">
             <template v-if="data.items.length > 0">
               <div class="search-title-wrap">
                 <p class="search-title">
@@ -251,36 +154,22 @@
                   > {{ data.indexViewName }}
                   <span class="search-total">{{ data.indexTotalCount }}</span>
                 </p>
-                <a class="btn md line more" @click="detailNexen(data.indexName)"
-                  ><span>{{
-                    getLang(language.vue_search?.title.more, "더보기")
-                  }}</span></a
-                >
+                <a class="btn md line more" @click="detailNexen(data.indexName)"><span>{{
+                  getLang(language.vue_search?.title.more, "더보기")
+                    }}</span></a>
               </div>
               <div class="search-result-list">
                 <ul>
-                  <li
-                    class="search-result-item"
-                    v-for="(item, i) in data.items"
-                    :key="'nexen_s' + i"
-                  >
+                  <li class="search-result-item" v-for="(item, i) in data.items" :key="'nexen_s' + i">
                     <div class="title-wrap flex-con p-be">
-                      <p
-                        class="title ellipse"
-                        @click="openUrl(item, '중앙', data.indexName)"
-                        style="cursor: pointer"
-                      >
+                      <p class="title ellipse" @click="openUrl(item, '중앙', data.indexName)" style="cursor: pointer">
                         {{ item.docName }}
                       </p>
                       <div class="info-wrap">
-                        <span
-                          class="depart"
-                          v-html="
-                            item[`creatorName_${langCode}`]
-                              ? processContent(item[`creatorName_${langCode}`])
-                              : processContent(item[`creatorName_ko`])
-                          "
-                        ></span>
+                        <span class="depart" v-html="item[`creatorName_${langCode}`]
+                          ? processContent(item[`creatorName_${langCode}`])
+                          : processContent(item[`creatorName_ko`])
+                          "></span>
                         <span class="divider"></span>
                         <span class="date">{{
                           DatetoLocaleString(formatDate(item.updatedDate), {
@@ -289,28 +178,14 @@
                         }}</span>
                       </div>
                     </div>
-                    <div
-                      class="file-wrap"
-                      @click="openUrl(item, '중앙', data.indexName)"
-                      style="cursor: pointer"
-                    >
-                      <a
-                        ><span class="file flex-con jc-left ellipse"
-                          ><img
-                            src="../assets/images/subpage/icon_file_xls.svg"
-                            class="screen-mode-img"
-                            alt="" /><span
-                            v-html="processContent(item.fileName)"
-                          ></span></span
-                      ></a>
+                    <div class="file-wrap" @click="openUrl(item, '중앙', data.indexName)" style="cursor: pointer">
+                      <a><span class="file flex-con jc-left ellipse"><img
+                            src="../assets/images/subpage/icon_file_xls.svg" class="screen-mode-img" alt="" /><span
+                            v-html="processContent(item.fileName)"></span></span></a>
                     </div>
-                    <p
-                      class="content ellipse lh2"
-                      v-html="processContent(item.content)"
-                    ></p>
+                    <p class="content ellipse lh2" v-html="processContent(item.content)"></p>
                     <p class="location flex-con jc-left">
-                      <span class="screen-mode-img icon_folder"></span
-                      ><span>{{
+                      <span class="screen-mode-img icon_folder"></span><span>{{
                         item[`pathName_${langCode}`]
                           ? item[`pathName_${langCode}`].replaceAll("|", " > ")
                           : item[`pathName_ko`].replaceAll("|", " > ")
@@ -323,11 +198,7 @@
           </div>
         </template>
         <template v-if="row3">
-          <div
-            class="search-result-approval"
-            v-for="(data, edms) in edmsList"
-            :key="'edms' + edms"
-          >
+          <div class="search-result-approval" v-for="(data, edms) in edmsList" :key="'edms' + edms">
             <template v-if="data.items.length > 0">
               <div class="search-title-wrap">
                 <p class="search-title">
@@ -335,32 +206,19 @@
                   > {{ data.indexViewName }}
                   <span class="search-total">{{ data.indexTotalCount }}</span>
                 </p>
-                <a class="btn md line more" @click="detailEdms(data.indexName)"
-                  ><span>{{
-                    getLang(language.vue_search?.title.more, "더보기")
-                  }}</span></a
-                >
+                <a class="btn md line more" @click="detailEdms(data.indexName)"><span>{{
+                  getLang(language.vue_search?.title.more, "더보기")
+                    }}</span></a>
               </div>
               <div class="search-result-list">
                 <ul>
                   <template v-if="data.items.length > 0">
-                    <li
-                      class="search-result-item"
-                      v-for="(item, i) in data.items"
-                      :key="'edms_s' + i"
-                    >
+                    <li class="search-result-item" v-for="(item, i) in data.items" :key="'edms_s' + i">
                       <div class="title-wrap flex-con p-be">
-                        <p
-                          class="title ellipse"
-                          @click="openUrl(item, '표준')"
-                          style="cursor: pointer"
-                          v-html="processContent(item.title)"
-                        ></p>
+                        <p class="title ellipse" @click="openUrl(item, '표준')" style="cursor: pointer"
+                          v-html="processContent(item.title)"></p>
                         <div class="info-wrap">
-                          <span
-                            class="depart"
-                            v-html="processContent(item.deptName)"
-                          ></span>
+                          <span class="depart" v-html="processContent(item.deptName)"></span>
                           <span class="divider"></span>
                           <span class="date">{{
                             DatetoLocaleString(formatDate(item.chgDate), {
@@ -370,23 +228,13 @@
                         </div>
                       </div>
                       <div class="file-wrap">
-                        <a
-                          ><span class="file flex-con jc-left ellipse"
-                            ><img
-                              src="../assets/images/subpage/icon_file_xls.svg"
-                              class="screen-mode-img"
-                              alt="" /><span
-                              v-html="processContent(item.fileName)"
-                            ></span></span
-                        ></a>
+                        <a><span class="file flex-con jc-left ellipse"><img
+                              src="../assets/images/subpage/icon_file_xls.svg" class="screen-mode-img" alt="" /><span
+                              v-html="processContent(item.fileName)"></span></span></a>
                       </div>
-                      <p
-                        class="content ellipse lh2"
-                        v-html="processContent(item.fileContent)"
-                      ></p>
+                      <p class="content ellipse lh2" v-html="processContent(item.fileContent)"></p>
                       <p class="location flex-con jc-left">
-                        <span class="screen-mode-img icon_folder"></span
-                        ><span>{{
+                        <span class="screen-mode-img icon_folder"></span><span>{{
                           item[`fullPath_${langCode}`]
                             ? item[`fullPath_${langCode}`]
                             : item[`fullPath_ko`]
@@ -395,8 +243,8 @@
                     </li>
                   </template>
                   <template v-else>
-                    <li class="search-result-item"></li
-                  ></template>
+                    <li class="search-result-item"></li>
+                  </template>
                 </ul>
               </div>
             </template>
@@ -453,7 +301,9 @@ const {
   row4,
   sortinfo,
 } = storeToRefs(MainStore);
-
+onMounted(() => {
+  console.log(111)
+})
 const total = ref(0);
 
 watch([edmsList, nexenList, approList, boardList], () => {
@@ -770,6 +620,36 @@ const openUrl = async (data, info, name) => {
     window.open(`/vboard/boardread?key_unid=${data.docid}&popup=1&pre=1`);
   }
 };
+
+const test = () => {
+  let keySize = 128;
+  let iterations = 1000;
+  let iterationCount = 1000
+  let salt = "3FF2EC019C627B945225DEBAD71A01B6985FE84C95A70EB132882F88C0A59A55";
+  let iv = "F27D5C9927726BCEFE7510B1BDD3D137";
+  // let key = "test";
+  let id = "10223045";
+  let redirectURL = '';
+  let key = new Date().getTime().toString();	// 시간값이 나온다. 이전 예제에서 Java System.currentTimeMillis()와 동일
+  let myDriveURL = "https://kms.nexentire.com";
+  let aesUtil = new AesUtil(keySize, iterationCount);
+  let enc_id = aesUtil.encrypt(salt, iv, key, id);
+  let dec_id = aesUtil.decrypt(salt, iv, key, enc_id);
+  location.href = myDriveURL + "/login/index.jsp?" + "user_id=" + encodeURIComponent(enc_id) +
+    "&key=" + key +
+    "&ctype=PORTAL" +
+    "&lang=KO" +
+    (
+      redirectURL ?
+        "&next=" + encodeURIComponent(redirectURL)	// next 파라미터로 세션을 들고 원하는 페이지로 리다이렉트 시킬수있다.
+        :
+        ""
+    );
+  // const test__ = encrypt(salt, iv, key, id);
+  // console.log(test__,"test__")
+  // const test__test__ = decrypt(salt, iv, key, test__)
+  // console.log(test__test__,"test__test__")
+}
 </script>
 
 <style scoped>
